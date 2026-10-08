@@ -9,6 +9,7 @@
 | 8-slide executive deck | `deck/multivar_exec_deck.pptx` (PowerPoint, speaker notes included; rebuild with `deck/build_pptx.js`) · `deck/multivar_exec_deck.html` |
 | One-page retail industry study summary (sourced) | `deck/retail_industry_summary.pptx` (rebuild with `deck/build_industry_summary.js`) |
 | One-page Databricks retail customer results (Al-Futtaim, Wehkamp, Skechers) | `deck/databricks_retail_case_studies.pptx` (rebuild with `deck/build_customer_cases.js`) |
+| Roadmap slide as a timeline (one page) | `deck/roadmap_timeline.pptx` (rebuild with `deck/build_roadmap_timeline.js`) |
 | Run-of-show and talk track | `TALK_TRACK.md` |
 
 ## Deploy (about 15 min)
