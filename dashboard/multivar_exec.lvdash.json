@@ -1,0 +1,730 @@
+{
+  "datasets": [
+    {
+      "name": "kpis",
+      "displayName": "kpis",
+      "queryLines": [
+        "SELECT SUM(net_sales_eur) AS revenue, SUM(gross_margin_eur)/SUM(net_sales_eur) AS gm_pct,\n  SUM(markdown_cost_eur) AS markdown_cost, (SELECT SUM(est_lost_sales_eur) FROM multivar.retail.stock_health) AS lost_sales,\n  (SELECT AVG(stockout_rate) FROM multivar.retail.stock_health) AS stockout_rate FROM multivar.retail.sales_unified"
+      ]
+    },
+    {
+      "name": "monthly",
+      "displayName": "monthly",
+      "queryLines": [
+        "SELECT DATE_TRUNC('MONTH', sale_date) AS month, channel, SUM(net_sales_eur) AS revenue,\n  SUM(markdown_cost_eur) AS markdown_cost FROM multivar.retail.sales_unified GROUP BY ALL"
+      ]
+    },
+    {
+      "name": "markdown",
+      "displayName": "markdown",
+      "queryLines": [
+        "SELECT season, category, SUM(markdown_cost_eur) AS markdown_cost, SUM(net_sales_eur) AS net_sales FROM multivar.retail.markdown_performance WHERE season <> 'CORE' GROUP BY ALL"
+      ]
+    },
+    {
+      "name": "lost_by_store",
+      "displayName": "lost_by_store",
+      "queryLines": [
+        "SELECT store_name, market, SUM(est_lost_sales_eur) AS lost_sales FROM multivar.retail.stock_health GROUP BY ALL"
+      ]
+    },
+    {
+      "name": "forecast",
+      "displayName": "forecast",
+      "queryLines": [
+        "SELECT week, category, units, units_lower, units_upper, is_forecast FROM multivar.retail.demand_forecast"
+      ]
+    },
+    {
+      "name": "actions",
+      "displayName": "actions",
+      "queryLines": [
+        "SELECT * FROM multivar.retail.replenishment_actions ORDER BY lost_sales_last_12m_eur DESC"
+      ]
+    },
+    {
+      "name": "segments",
+      "displayName": "segments",
+      "queryLines": [
+        "SELECT channel_segment, COUNT(*) AS members, AVG(total_spend_eur) AS avg_spend,\n  SUM(total_spend_eur) AS total_spend FROM multivar.retail.customer_360 WHERE channel_segment <> 'Inactive' GROUP BY ALL"
+      ]
+    },
+    {
+      "name": "segment_market",
+      "displayName": "segment_market",
+      "queryLines": [
+        "SELECT market, channel_segment, COUNT(*) AS members FROM multivar.retail.customer_360 WHERE channel_segment <> 'Inactive' GROUP BY ALL"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "margin",
+      "displayName": "Margin (CFO)",
+      "layout": [
+        {
+          "widget": {
+            "name": "t1",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Where is margin leaking?\nFY26 (Oct-25 \u2013 Sep-26), all markets, stores + online in one view."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "k_rev",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "revenue",
+                  "displayName": "Net sales",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net sales"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "k_md",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "markdown_cost",
+                      "expression": "`markdown_cost`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "markdown_cost",
+                  "displayName": "Markdown cost (given away vs full price)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Markdown cost (given away vs full price)"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 1,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "k_lost",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpis",
+                  "fields": [
+                    {
+                      "name": "lost_sales",
+                      "expression": "`lost_sales`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "lost_sales",
+                  "displayName": "Est. sales lost to stock-outs",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Est. sales lost to stock-outs"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 1,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "c_monthly",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "monthly",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    },
+                    {
+                      "name": "channel",
+                      "expression": "`channel`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "month"
+                },
+                "y": {
+                  "fieldName": "sum(revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "revenue"
+                },
+                "color": {
+                  "fieldName": "channel",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "channel"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net sales by month & channel"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 3,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "c_md",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "markdown",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "sum(markdown_cost)",
+                      "expression": "SUM(`markdown_cost`)"
+                    },
+                    {
+                      "name": "season",
+                      "expression": "`season`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "category"
+                },
+                "y": {
+                  "fieldName": "sum(markdown_cost)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "markdown cost"
+                },
+                "color": {
+                  "fieldName": "season",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "season"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Markdown cost by category & season"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 3,
+            "width": 3,
+            "height": 5
+          }
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "displayName": "Stock & Forecast (Merch)",
+      "layout": [
+        {
+          "widget": {
+            "name": "t2",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## Stock: where are we losing sales, and what do we do this week?"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "c_lost",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "lost_by_store",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "sum(lost_sales)",
+                      "expression": "SUM(`lost_sales`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "store_name",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "store name"
+                },
+                "y": {
+                  "fieldName": "sum(lost_sales)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "lost sales"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Estimated lost sales from stock-outs by store"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 3,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "c_fc",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "forecast",
+                  "fields": [
+                    {
+                      "name": "week",
+                      "expression": "`week`"
+                    },
+                    {
+                      "name": "sum(units)",
+                      "expression": "SUM(`units`)"
+                    },
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "week",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "week"
+                },
+                "y": {
+                  "fieldName": "sum(units)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "units"
+                },
+                "color": {
+                  "fieldName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "category"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Weekly demand by category \u2014 actuals + 12-week AI forecast"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 1,
+            "width": 3,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "tbl_actions",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "actions",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "sku",
+                      "expression": "`sku`"
+                    },
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "on_hand_units",
+                      "expression": "`on_hand_units`"
+                    },
+                    {
+                      "name": "weeks_of_cover",
+                      "expression": "`weeks_of_cover`"
+                    },
+                    {
+                      "name": "lost_sales_last_12m_eur",
+                      "expression": "`lost_sales_last_12m_eur`"
+                    },
+                    {
+                      "name": "recommended_action",
+                      "expression": "`recommended_action`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "store_name",
+                    "displayName": "store name"
+                  },
+                  {
+                    "fieldName": "sku",
+                    "displayName": "sku"
+                  },
+                  {
+                    "fieldName": "product_name",
+                    "displayName": "product name"
+                  },
+                  {
+                    "fieldName": "on_hand_units",
+                    "displayName": "on hand units"
+                  },
+                  {
+                    "fieldName": "weeks_of_cover",
+                    "displayName": "weeks of cover"
+                  },
+                  {
+                    "fieldName": "lost_sales_last_12m_eur",
+                    "displayName": "lost sales last 12m eur"
+                  },
+                  {
+                    "fieldName": "recommended_action",
+                    "displayName": "recommended action"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "This week's replenishment actions"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          }
+        }
+      ]
+    },
+    {
+      "name": "customer",
+      "displayName": "Customer (Ops)",
+      "layout": [
+        {
+          "widget": {
+            "name": "t3",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## One view of the customer: omnichannel members are worth ~3x"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "c_seg",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "segments",
+                  "fields": [
+                    {
+                      "name": "channel_segment",
+                      "expression": "`channel_segment`"
+                    },
+                    {
+                      "name": "avg(avg_spend)",
+                      "expression": "AVG(`avg_spend`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "channel_segment",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "channel segment"
+                },
+                "y": {
+                  "fieldName": "avg(avg_spend)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "avg spend"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Average 12-month spend per member"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 3,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "c_segm",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "segment_market",
+                  "fields": [
+                    {
+                      "name": "market",
+                      "expression": "`market`"
+                    },
+                    {
+                      "name": "sum(members)",
+                      "expression": "SUM(`members`)"
+                    },
+                    {
+                      "name": "channel_segment",
+                      "expression": "`channel_segment`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "market",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "market"
+                },
+                "y": {
+                  "fieldName": "sum(members)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "members"
+                },
+                "color": {
+                  "fieldName": "channel_segment",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "channel segment"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Members by market & channel segment"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 1,
+            "width": 3,
+            "height": 5
+          }
+        }
+      ]
+    }
+  ]
+}

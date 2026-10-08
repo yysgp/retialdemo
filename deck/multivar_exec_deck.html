@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multivar Margin Plan</title>
+<style>
+:root{--bg:#f7f5f0;--ink:#1b1f24;--mute:#5d6570;--acc:#ff3621;--acc2:#0b6e4f;--card:#fff;--line:#e3ded4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171b;--ink:#f1efe9;--mute:#a3abb5;--card:#1d2127;--line:#2c3239}}
+:root[data-theme="dark"]{--bg:#14171b;--ink:#f1efe9;--mute:#a3abb5;--card:#1d2127;--line:#2c3239}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+.slide{min-height:100vh;padding:56px 7vw;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line);scroll-snap-align:start}
+html{scroll-snap-type:y mandatory}
+.n{color:var(--acc);font-weight:700;letter-spacing:.08em;font-size:13px;text-transform:uppercase}
+h1{font-size:clamp(32px,5vw,58px);line-height:1.08;margin:.3em 0}h2{font-size:clamp(26px,3.4vw,40px);line-height:1.15;margin:.3em 0 .8em}
+p.lead{font-size:clamp(18px,2vw,23px);color:var(--mute);max-width:46em}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+.card h3{margin:.1em 0 .4em;font-size:19px}.card p{margin:0;color:var(--mute);font-size:16px}
+.big{font-size:40px;font-weight:800;color:var(--acc)}.ok{color:var(--acc2)}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--line);margin-bottom:8px}
+ul{margin:.2em 0;padding-left:1.1em}li{margin:.25em 0}
+.phase{border-top:4px solid var(--acc)}.phase:nth-child(2){border-top-color:#f59e0b}.phase:nth-child(3){border-top-color:var(--acc2)}
+small{color:var(--mute)}
+</style></head><body>
+
+<section class="slide">
+  <div class="n">Multivar × Databricks · Executive session</div>
+  <h1>Stop flying blind on stock and markdowns.<br>Protect margin in weeks, not years.</h1>
+  <p class="lead">One trusted view of customer and stock across every market and channel, built with the team you already have.</p>
+</section>
+
+<section class="slide">
+  <div class="n">01 · What we heard. Correct us.</div>
+  <h2>Margin is leaking in places nobody can see in time</h2>
+  <div class="grid">
+    <div class="card"><h3>Four systems, no single truth</h3><p>POS, web, inventory and loyalty were bolted on over time. Every decision starts with a spreadsheet that is already out of date.</p></div>
+    <div class="card"><h3>Merchandising is guessing</h3><p>Seasonal buys are a one-shot bet. Markdowns come late and deep. Fast movers run out in the same stores again and again.</p></div>
+    <div class="card"><h3>A small team with a long backlog</h3><p>Every ambitious ask becomes a ticket. A heavyweight platform you can't staff would only add risk.</p></div>
+  </div>
+  <p class="lead" style="margin-top:28px"><b>Questions for the room:</b> What share of revenue goes to markdowns today? How do you know a store is out of stock, and how long does that take? Which decision would you change first if the data was trusted?</p>
+</section>
+
+<section class="slide">
+  <div class="n">02 · The cost of standing still</div>
+  <h2>Every season you wait costs margin you can't recover later</h2>
+  <div class="grid">
+    <div class="card"><div class="big">2–4%</div><h3>of sales lost to stock-outs</h3><p>Shown in the prototype data: concentrated in a handful of stores and fast movers, so it is fixable.</p></div>
+    <div class="card"><div class="big">10–15%</div><h3>of full-price value given away in markdowns</h3><p>Typical for European mid-market fashion. Late reactive clearance is the costliest kind.</p></div>
+    <div class="card"><div class="big">~3×</div><h3>spend from omnichannel members</h3><p>Today you can't see them, so you can't grow them.</p></div>
+  </div>
+  <p class="lead" style="margin-top:24px">For a business of around €400M, recovering a third of stock-out loss and cutting markdowns by 10–15% adds up to <b>€4–7M of gross margin a year</b>. <small>That figure is a hypothesis. We validate it on your data in the first 6 weeks.</small></p>
+</section>
+
+<section class="slide">
+  <div class="n">03 · What success looks like, in your metrics</div>
+  <h2>We agree on the scoreboard before we build anything</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">Head of Merchandising & Supply</span><h3>On-shelf availability up · stock-outs on top 200 SKUs down 30%</h3><p>Forecast accuracy (WAPE) at category and store level. Full-price sell-through up.</p></div>
+    <div class="card"><span class="tag">CFO / Commercial Director</span><h3>Markdown spend down 10–15% · GM% up 50–100 bps</h3><p>Value shown in weeks, at a fixed pilot cost, with no multi-year commitment up front.</p></div>
+    <div class="card"><span class="tag">VP Retail Ops & Data</span><h3>One customer and stock view, refreshed daily</h3><p>Self-serve answers in minutes instead of backlog tickets. A team of 3–4 runs it.</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="n">04 · Proof point, built on Multivar-shaped data</div>
+  <h2>What one trusted platform looks like on day one</h2>
+  <div class="grid">
+    <div class="card"><h3>1 · Unified foundation</h3><p>POS, online, inventory, loyalty, markdowns and products land in one governed place. Online shoppers are matched to their loyalty IDs.</p></div>
+    <div class="card"><h3>2 · Executive dashboard</h3><p>Margin leakage, lost sales by store, a 12-week demand forecast, and this week's reorder list.</p></div>
+    <div class="card"><h3>3 · Genie: ask in plain language</h3><p>"Which stores lost the most to stock-outs?" "What would a 20% markdown cut be worth?" Answers come back in seconds, using your definitions.</p></div>
+  </div>
+  <p class="lead" style="margin-top:24px"><b>Live demo:</b> 5 minutes, one question each for Merchandising, Ops and Finance.</p>
+</section>
+
+<section class="slide">
+  <div class="n">05 · The vision</div>
+  <h2>From reporting on the past to deciding the next week, then automating it</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">See</span><h3>One truth</h3><p>Customer 360 and stock positions across 5 markets and both channels. Spreadsheets retired.</p></div>
+    <div class="card"><span class="tag">Predict</span><h3>Demand-led merchandising</h3><p>SKU × store forecasts drive buys, allocation and replenishment. Markdowns are planned early and kept shallow.</p></div>
+    <div class="card"><span class="tag">Act</span><h3>Personal & automated</h3><p>Next-best offers for loyalty members, AI agents for planners and store managers, and a supplier data share.</p></div>
+  </div>
+  <p class="lead" style="margin-top:24px">This is the same path Europe's leading omnichannel retailers are on. Mid-market players can now get there without building a large data organisation.</p>
+</section>
+
+<section class="slide">
+  <div class="n">06 · The roadmap</div>
+  <h2>Value in weeks. Each phase pays for the next.</h2>
+  <div class="grid">
+    <div class="card phase"><span class="tag">Weeks 0–6 · Prove</span><h3>Stock-outs + markdown baseline</h3><ul><li>Connect POS, web, inventory and loyalty for 1 market</li><li>Dashboard + Genie for merch & finance</li><li>Validate the € case on real data</li></ul><p><b>Exit:</b> CFO signs off the baseline and target.</p></div>
+    <div class="card phase"><span class="tag">Months 2–6 · Scale</span><h3>All markets, forecasting live</h3><ul><li>SKU × store demand forecast in the weekly buy/replen cycle</li><li>Markdown recommendations for AW26 end of season</li><li>Customer 360 used by CRM</li></ul><p><b>Exit:</b> measured reduction in stock-outs and markdowns.</p></div>
+    <div class="card phase"><span class="tag">Months 6–18 · Differentiate</span><h3>Personalisation & AI agents</h3><ul><li>Loyalty personalisation and retention</li><li>Planner & store-manager assistants</li><li>Supplier collaboration, pricing</li></ul><p><b>Exit:</b> growth levers, not only cost savings.</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <div class="n">07 · Decision today</div>
+  <h2>Start a 6-week value sprint on your data</h2>
+  <div class="grid">
+    <div class="card"><h3>What we ask</h3><ul><li>An executive sponsor (CFO) and a business owner (Merch)</li><li>2 people from your data team, part-time</li><li>Read access to POS, web, inventory and loyalty extracts</li></ul></div>
+    <div class="card"><h3>What Databricks brings</h3><ul><li>Dedicated SA + field engineering pod</li><li>Pay-as-you-go serverless: no infrastructure to staff</li><li>Retail accelerators (forecasting, markdown, customer 360)</li></ul></div>
+    <div class="card"><h3>Next 10 days</h3><ul><li><b>Day 2:</b> success metrics signed</li><li><b>Day 5:</b> data access & security review</li><li><b>Day 10:</b> sprint kick-off, first market live in week 3</li></ul></div>
+  </div>
+  <p class="lead" style="margin-top:24px">If week 6 doesn't show a credible path to the margin target, you stop, with no long-term commitment.</p>
+</section>
+</body></html>
