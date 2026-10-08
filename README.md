@@ -6,7 +6,7 @@
 | Gold layer: unified sales, customer 360, stock health, markdowns, AI forecast, actions | `notebooks/02_gold_layer.sql` |
 | AI/BI dashboard (3 pages: CFO / Merch / Ops) | `dashboard/multivar_exec.lvdash.json` (regenerate with `build_dashboard.py`) |
 | Genie agent instructions, trusted SQL, demo questions | `genie/genie_agent_config.md` |
-| 8-slide executive deck | `deck/multivar_exec_deck.html` |
+| 8-slide executive deck | `deck/multivar_exec_deck.pptx` (PowerPoint, speaker notes included; rebuild with `deck/build_pptx.js`) · `deck/multivar_exec_deck.html` |
 | Run-of-show and talk track | `TALK_TRACK.md` |
 
 ## Deploy (about 15 min)
